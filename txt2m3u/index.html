@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online TXT to M3U format</title>
+  <meta name="description" content="A simple online TXT to M3U format tool, pure front-end processing, no need to upload txt files, just paste and convert, safe and no source theft.">
+<meta name="keywords" content="txt to m3u, txt conversion, m3u generation, LIVE">
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    h2 {
+      color: #333;
+    }
+    #inputContainer {
+      margin-top: 10px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #666;
+    }
+    textarea, #m3uOutput {
+      width: 800px;
+      height: 368px;
+      box-sizing: border-box;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 12px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 10px;
+      font-size: 14px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #m3uOutput {
+      margin-top: 5px;
+      background-color: #fff;
+      color: #333;
+    }
+    #copyright {
+      margin-top: 20px;
+      color: #666;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+ <h2>Online TXT to M3U format</h2>
+<h3>TXT format source:</h3>
+  <div id="inputContainer">
+    <textarea id="txtInput" rows="10" cols="80"></textarea>
+  </div>
+ <button onclick="convertToM3U()">Convert format</button>
+<button onclick="clearScreen()">Clear screen</button>
+<button onclick="copyContent()">Copy result</button>
+<button onclick="saveAsM3U()">Save m3u</button>
+<h3>M3U format conversion result:</h3>
+  <textarea id="m3uOutput" rows="10" cols="80" readonly></textarea>
+  <div id="copyright">
+    <p>© 2024  All Rights Reserved.</p>
+  </div>
+  <script>
+    function convertToM3U() {
+      const txtInput = document.getElementById('txtInput').value;
+      const lines = txtInput.split('\n');
+      let m3uOutput = '#EXTM3U x-tvg-url="https://live.fanmingming.com/e.xml"\n';
+      let currentGroup = null;
+      for (const line of lines) {
+        const trimmedLine = line.trim();
+        if (trimmedLine !== '') {
+          if (trimmedLine.includes('#genre#')) {
+            currentGroup = trimmedLine.replace(/,#genre#/, '').trim();
+          } else {
+            const [originalChannelName, channelLink] = trimmedLine.split(',').map(item => item.trim());
+            const processedChannelName = originalChannelName.replace(/(CCTV|CETV)-(\d+).*/, '$1$2');
+            m3uOutput += `#EXTINF:-1 tvg-name="${processedChannelName}" tvg-logo="https://live.fanmingming.com/tv/${processedChannelName}.png"`;
+            if (currentGroup) {
+              m3uOutput += ` group-title="${currentGroup}"`;
+            }
+            m3uOutput += `,${originalChannelName}\n${channelLink}\n`;
+          }
+        }
+      }
+      document.getElementById('m3uOutput').value = m3uOutput;
+    }
+    function clearScreen() {
+      document.getElementById('txtInput').value = '';
+      document.getElementById('m3uOutput').value = '';
+    }
+    function copyContent() {
+      const m3uOutput = document.getElementById('m3uOutput');
+      m3uOutput.select();
+      document.execCommand('copy');
+      alert('Copied to clipboard！');
+    }
+    function saveAsM3U() {
+      const m3uContent = document.getElementById('m3uOutput').value;
+      const blob = new Blob([m3uContent], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'playlist.m3u';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  </script>
+</body>
+</html>

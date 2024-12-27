@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terabox Video Fetcher</title>
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-    <link href="https://unpkg.com/video.js@7.20.3/dist/video-js.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/@videojs/themes@1.0.0/dist/fantasy/index.css" rel="stylesheet">
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+    <link href="//vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <link href="//unpkg.com/video.js@7.20.3/dist/video-js.min.css" rel="stylesheet">
+    <link href="//unpkg.com/@videojs/themes@1.0.0/dist/fantasy/index.css" rel="stylesheet">
+    <script src="//vjs.zencdn.net/7.20.3/video.min.js"></script>
     <style>
         .video-js {
             margin: 0 auto;
@@ -27,7 +27,7 @@
         function fetchVideo() {
             const urlInput = document.getElementById('terabox-url').value;
             const videoId = extractVideoId(urlInput);
-            const videoUrl = `https://jolly-union-9cc3.shraj.workers.dev/?id=${videoId}`;
+            const videoUrl = `//jolly-union-9cc3.shraj.workers.dev/?id=${videoId}`;
             loadVideo(videoUrl);
             window.history.pushState({}, '', `?url=${encodeURIComponent(urlInput)}`);
         }
@@ -43,7 +43,7 @@
             const videoId = extractVideoId(url);
             if (url) {
                 document.getElementById('terabox-url').value = url;
-                const videoUrl = `https://jolly-union-9cc3.shraj.workers.dev/?id=${videoId}`;
+                const videoUrl = `//jolly-union-9cc3.shraj.workers.dev/?id=${videoId}`;
                 loadVideo(videoUrl);
             }
 
@@ -51,7 +51,7 @@
             
 
             const iframe = document.getElementById('iframe');
-            iframe.src = "https://www.1024terabox.com/sharing/embed?surl="+videoId.slice(1)+"&autoplay=true&mute=false";
+            iframe.src = "//www.1024terabox.com/sharing/embed?surl="+videoId.slice(1)+"&autoplay=true&mute=false";
 
         }
 
@@ -82,6 +82,6 @@
 
 
     
-<!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc4d6575cff34cf7b1bce35ab43a865f"}'></script><!-- Cloudflare Pages Analytics --></body>
+<!-- Cloudflare Pages Analytics --><script defer src='//static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc4d6575cff34cf7b1bce35ab43a865f"}'></script><!-- Cloudflare Pages Analytics --></body>
 
 </html>
